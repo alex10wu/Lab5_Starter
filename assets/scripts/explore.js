@@ -10,6 +10,25 @@ const smileImg = document.querySelector("img");
 
 let voices = [];
 
+//Helper function
+//https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis
+function populateVoiceList() {
+  setTimeout(() => {
+    voices = synth.getVoices();
+    for (let i = 0; i < voices.length; i++) {
+      const option = document.createElement("option");
+      option.textContent = `${voices[i].name} (${voices[i].lang})`;
+
+      if (voices[i].default) {
+        option.textContent += " — DEFAULT";
+      }
+
+      option.setAttribute("data-lang", voices[i].lang);
+      option.setAttribute("data-name", voices[i].name);
+      voiceSelect.appendChild(option);
+    }
+  }, 1000);
+}
 
 function init() {
   // All voices loaded to “Select Voice” dropdown
@@ -35,22 +54,3 @@ function init() {
 
 }
 
-//Helper function
-//https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis
-function populateVoiceList() {
-  setTimeout(() => {
-    voices = synth.getVoices();
-    for (let i = 0; i < voices.length; i++) {
-      const option = document.createElement("option");
-      option.textContent = `${voices[i].name} (${voices[i].lang})`;
-
-      if (voices[i].default) {
-        option.textContent += " — DEFAULT";
-      }
-
-      option.setAttribute("data-lang", voices[i].lang);
-      option.setAttribute("data-name", voices[i].name);
-      voiceSelect.appendChild(option);
-    }
-  }, 1000);
-}
